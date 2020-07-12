@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+    <title>Arduino</title>
+</head>
+<body>
+    
+    <div class="container p-3">
+        <div class="row">
+            <div class="col-6" style="padding: 2px !important;">
+                <div class="card text-white bg-dark">
+                    <div class="card-header text-center">Ventilador</div>
+                    <div class="card-body">
+                      <h5 class="card-title text-center">
+                      </h5>
+                      <img src="image/car.png" class="rounded mx-auto d-block" width="60" />
+
+                      <div class="btn-group mt-3 mx-auto" role="group" aria-label="Basic example">
+                        <button type="button"  id="buttonOnGarage" class="btn btn-secondary btn-sm">ON</button>
+                        <button type="button"  id="buttonOffGarage" class="btn btn-secondary btn-sm">OFF</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<!-- add sockeio in client -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<script>
+
+    const socketIO = io();
+    let count = 2;
+
+    var buttonOn = document.getElementById('buttonOnGarage');
+    var buttonOFF = document.getElementById('buttonOffGarage');
+    
+    //recebe dados do potenciometro
+    socketIO.on( 'serial:data', (dataSerial)=>{
+        // console.log('dataSerial', dataSerial)
+    });
+
+    window.onload = ()=>{
+
+        buttonOn.addEventListener('click', () => {
+            console.log('event on')
+            socketIO.emit('btnAction', {
+                value: 'a'
+            });
+        });
+        
+        buttonOFF.addEventListener('click', () => {
+            console.log('event off')
+            socketIO.emit('btnAction', {
+                value: 'b'
+            });
+        });
+    }
+
+</script>
+</html>
